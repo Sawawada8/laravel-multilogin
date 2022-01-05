@@ -1,0 +1,43 @@
+version: '3'
+services:
+  web:
+    image: c7php74apache-p:latest
+    ports:
+      - '8080:80'
+    volumes:
+      - '.:/home/homepage/'
+    depends_on:
+      - db
+    privileged: true
+    working_dir: /home/homepage/
+  db:
+    image: mysql:8.0
+    ports:
+      - '${DB_PORT}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - './db_data/:/var/lib/mysql'
+    # platform: linux/x86_64
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+    #   retries: 3
+    #   timeout: 5s
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+  phpmyadmin:
+    image: 'phpmyadmin/phpmyadmin'
+    ports:
+      - '1111:80'
+    environment:
+      PMA_HOST: '${DB_HOST}'
+      PMA_PORT: '${DB_PORT}'
+    depends_on:
+      - db
