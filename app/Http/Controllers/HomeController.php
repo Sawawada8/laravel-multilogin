@@ -13,6 +13,7 @@ class HomeController extends Controller
         // $obj->callHello();
         // echo '------<br>';
         // $o->invoke();
+        return view('aaa');
         return response()->json(['hello' => 'world']);
     }
     public function indexa(Request $req)

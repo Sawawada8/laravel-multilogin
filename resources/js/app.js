@@ -2,6 +2,12 @@
 
 // require('./bootstrap');
 
+import ReactDOM from 'react-dom';
+import { App } from './components/App';
+
+ReactDOM.render(<App />, document.getElementById('react_root'));
+
+/*
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
@@ -29,3 +35,5 @@ axios
   .then((data) => {
     console.log({ a: data });
   });
+
+  */
